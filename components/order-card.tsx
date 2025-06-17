@@ -49,7 +49,7 @@ export function OrderCard({
 
   return (
     <>
-      <Card className="border-l-4 border-l-blue-500 hover:shadow-md transition-shadow">
+      <Card className="border-l-4 border-l-blue-500 hover:shadow-md transition-shadow select-none">
         <CardHeader className="pb-3">
           <div className="flex justify-between items-start">
             <div>
