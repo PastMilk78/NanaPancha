@@ -21,7 +21,7 @@ export interface Order {
   totalPrice: number
   receivedAt: string
   status: "pending" | "cooking" | "ready" | "delivered"
-  source: "whatsapp" | "instagram"
+  source: "whatsapp" | "telefono"
   notes?: string
 }
 
@@ -34,7 +34,7 @@ export interface Customer {
   totalSpent: number
 }
 
-// Datos de ejemplo
+// Datos de ejemplo actualizados
 const mockOrders: Order[] = [
   {
     id: "1",
@@ -61,7 +61,7 @@ const mockOrders: Order[] = [
     totalPrice: 41000,
     receivedAt: "14:45",
     status: "cooking",
-    source: "instagram",
+    source: "telefono",
   },
   {
     id: "3",
@@ -75,6 +75,16 @@ const mockOrders: Order[] = [
     receivedAt: "13:15",
     status: "ready",
     source: "whatsapp",
+  },
+  {
+    id: "4",
+    customerName: "Luis Pérez",
+    customerPhone: "+57 304 555 1234",
+    products: [{ name: "Combo Familiar", quantity: 1, price: 45000 }],
+    totalPrice: 45000,
+    receivedAt: "15:20",
+    status: "pending",
+    source: "telefono",
   },
 ]
 

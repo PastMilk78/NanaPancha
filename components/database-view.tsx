@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Users, ShoppingBag, Search, Phone, Calendar, DollarSign, TrendingUp } from "lucide-react"
+import { Users, ShoppingBag, Search, Phone, Calendar, DollarSign, TrendingUp, MessageSquare } from "lucide-react"
 
 interface DatabaseViewProps {
   customers: Customer[]
@@ -46,6 +46,7 @@ export function DatabaseView({ customers, orders }: DatabaseViewProps) {
       pending: { label: "Pendiente", variant: "secondary" as const },
       cooking: { label: "En Cocina", variant: "default" as const },
       ready: { label: "Listo", variant: "outline" as const },
+      delivered: { label: "Entregado", variant: "outline" as const },
     }
     return statusConfig[status]
   }
@@ -186,7 +187,12 @@ export function DatabaseView({ customers, orders }: DatabaseViewProps) {
 
                   <div className="flex justify-between items-center pt-2 border-t">
                     <Badge variant={order.source === "whatsapp" ? "default" : "secondary"}>
-                      {order.source === "whatsapp" ? "WhatsApp" : "Instagram"}
+                      {order.source === "whatsapp" ? (
+                        <MessageSquare className="h-3 w-3 mr-1" />
+                      ) : (
+                        <Phone className="h-3 w-3 mr-1" />
+                      )}
+                      {order.source === "whatsapp" ? "WhatsApp" : "Teléfono"}
                     </Badge>
                     <span className="font-semibold">{formatPrice(order.totalPrice)}</span>
                   </div>

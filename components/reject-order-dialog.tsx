@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { AlertTriangle } from "lucide-react"
 
 interface RejectOrderDialogProps {
   open: boolean
@@ -20,26 +20,14 @@ interface RejectOrderDialogProps {
   onReject?: (reason: string) => void
 }
 
-const commonReasons = [
-  "Producto no disponible",
-  "Ingredientes agotados",
-  "Fuera del horario de servicio",
-  "Zona de entrega no disponible",
-  "Problema con el pago",
-  "Otro motivo",
-]
-
 export function RejectOrderDialog({ open, onOpenChange, onReject }: RejectOrderDialogProps) {
-  const [selectedReason, setSelectedReason] = useState("")
-  const [customReason, setCustomReason] = useState("")
+  const [reason, setReason] = useState("")
 
   const handleReject = () => {
-    const reason = selectedReason === "Otro motivo" ? customReason : selectedReason
     if (reason.trim()) {
       onReject?.(reason)
       onOpenChange(false)
-      setSelectedReason("")
-      setCustomReason("")
+      setReason("")
     }
   }
 
@@ -47,50 +35,37 @@ export function RejectOrderDialog({ open, onOpenChange, onReject }: RejectOrderD
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Rechazar Orden</DialogTitle>
+          <div className="flex items-center space-x-2">
+            <AlertTriangle className="h-5 w-5 text-amber-500" />
+            <DialogTitle>Rechazo Manual</DialogTitle>
+          </div>
           <DialogDescription>
-            Selecciona el motivo por el cual rechazas esta orden. El cliente recibirá una notificación automática.
+            Esta orden ya pasó los filtros automáticos del bot. Especifica el motivo excepcional para rechazarla
+            manualmente.
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
           <div>
-            <Label>Motivo del rechazo</Label>
-            <RadioGroup value={selectedReason} onValueChange={setSelectedReason} className="mt-2">
-              {commonReasons.map((reason) => (
-                <div key={reason} className="flex items-center space-x-2">
-                  <RadioGroupItem value={reason} id={reason} />
-                  <Label htmlFor={reason} className="text-sm cursor-pointer">
-                    {reason}
-                  </Label>
-                </div>
-              ))}
-            </RadioGroup>
+            <Label htmlFor="rejection-reason">Motivo del rechazo manual</Label>
+            <Textarea
+              id="rejection-reason"
+              placeholder="Ej: Problema con el proveedor, emergencia en cocina, etc..."
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              className="mt-1 min-h-[100px]"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Este motivo se enviará al cliente y se registrará en el sistema.
+            </p>
           </div>
-
-          {selectedReason === "Otro motivo" && (
-            <div>
-              <Label htmlFor="custom-reason">Especifica el motivo</Label>
-              <Textarea
-                id="custom-reason"
-                placeholder="Escribe el motivo específico..."
-                value={customReason}
-                onChange={(e) => setCustomReason(e.target.value)}
-                className="mt-1"
-              />
-            </div>
-          )}
         </div>
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancelar
           </Button>
-          <Button
-            variant="destructive"
-            onClick={handleReject}
-            disabled={!selectedReason || (selectedReason === "Otro motivo" && !customReason.trim())}
-          >
+          <Button variant="destructive" onClick={handleReject} disabled={!reason.trim()}>
             Rechazar Orden
           </Button>
         </DialogFooter>

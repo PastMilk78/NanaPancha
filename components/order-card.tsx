@@ -5,7 +5,7 @@ import type { Order } from "@/app/page"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Check, X, Edit, MessageSquare, Phone, Clock, Instagram, Archive } from "lucide-react"
+import { Check, Edit, MessageSquare, Phone, Clock, Archive, AlertTriangle } from "lucide-react"
 import { RejectOrderDialog } from "./reject-order-dialog"
 import { ModifyOrderDialog } from "./modify-order-dialog"
 
@@ -64,9 +64,9 @@ export function OrderCard({
                 {order.source === "whatsapp" ? (
                   <MessageSquare className="h-3 w-3 mr-1" />
                 ) : (
-                  <Instagram className="h-3 w-3 mr-1" />
+                  <Phone className="h-3 w-3 mr-1" />
                 )}
-                {order.source === "whatsapp" ? "WhatsApp" : "Instagram"}
+                {order.source === "whatsapp" ? "WhatsApp" : "Teléfono"}
               </Badge>
               <div className="flex items-center text-sm text-gray-500">
                 <Clock className="h-4 w-4 mr-1" />
@@ -111,9 +111,14 @@ export function OrderCard({
                   <Check className="h-4 w-4 mr-1" />
                   Aceptar
                 </Button>
-                <Button onClick={() => setShowRejectDialog(true)} size="sm" variant="destructive" className="flex-1">
-                  <X className="h-4 w-4 mr-1" />
-                  Rechazar
+                <Button
+                  onClick={() => setShowRejectDialog(true)}
+                  size="sm"
+                  variant="outline"
+                  className="flex-1 border-amber-200 text-amber-700 hover:bg-amber-50"
+                >
+                  <AlertTriangle className="h-4 w-4 mr-1" />
+                  Rechazo Manual
                 </Button>
               </>
             )}
