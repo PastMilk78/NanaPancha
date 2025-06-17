@@ -257,36 +257,53 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm border-b">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <header className="bg-gradient-to-r from-black to-gray-900 shadow-xl border-b-4 border-red-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-3">
-              <img
-                src="/images/nanapancha-logo.png"
-                alt="NanaPancha Logo"
-                className="h-16 w-16 object-contain rounded-lg shadow-sm"
-              />
-              <h1 className="text-2xl font-bold text-gray-900">Panel de Órdenes</h1>
+          <div className="flex justify-between items-center py-6">
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                <img
+                  src="/images/nanapancha-logo.png"
+                  alt="NanaPancha Logo"
+                  className="h-20 w-20 object-contain rounded-xl shadow-lg ring-2 ring-red-500"
+                />
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold text-white tracking-tight">Panel de Órdenes</h1>
+                <p className="text-gray-300 text-sm mt-1">Sistema de gestión NanaPancha</p>
+              </div>
             </div>
-            <Button onClick={refreshOrders} disabled={isRefreshing} variant="outline" size="sm">
-              <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? "animate-spin" : ""}`} />
+            <Button
+              onClick={refreshOrders}
+              disabled={isRefreshing}
+              className="bg-red-600 hover:bg-red-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-200"
+              size="lg"
+            >
+              <RefreshCw className={`h-5 w-5 mr-2 ${isRefreshing ? "animate-spin" : ""}`} />
               Actualizar
             </Button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs defaultValue="orders" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="orders" className="flex items-center space-x-2">
-              <ChefHat className="h-4 w-4" />
-              <span>Gestión de Órdenes</span>
+          <TabsList className="grid w-full grid-cols-2 mb-8 bg-black/90 p-1 rounded-xl shadow-lg">
+            <TabsTrigger
+              value="orders"
+              className="flex items-center space-x-2 data-[state=active]:bg-red-600 data-[state=active]:text-white text-gray-300 hover:text-white transition-all duration-200 rounded-lg py-3"
+            >
+              <ChefHat className="h-5 w-5" />
+              <span className="font-semibold">Gestión de Órdenes</span>
             </TabsTrigger>
-            <TabsTrigger value="database" className="flex items-center space-x-2">
-              <Database className="h-4 w-4" />
-              <span>Base de Datos</span>
+            <TabsTrigger
+              value="database"
+              className="flex items-center space-x-2 data-[state=active]:bg-red-600 data-[state=active]:text-white text-gray-300 hover:text-white transition-all duration-200 rounded-lg py-3"
+            >
+              <Database className="h-5 w-5" />
+              <span className="font-semibold">Base de Datos</span>
             </TabsTrigger>
           </TabsList>
 

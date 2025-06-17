@@ -21,14 +21,22 @@ interface DraggableOrderCardProps {
 }
 
 export function DraggableOrderCard({ order, ...props }: DraggableOrderCardProps) {
-  const [isTouchDevice, setIsTouchDevice] = useState(false)
+  const [isDesktop, setIsDesktop] = useState(false)
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: order.id,
   })
 
   useEffect(() => {
-    setIsTouchDevice("ontouchstart" in window || navigator.maxTouchPoints > 0)
+    const checkDevice = () => {
+      const isLargeScreen = window.innerWidth >= 1024
+      const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches
+      setIsDesktop(isLargeScreen && !hasCoarsePointer)
+    }
+
+    checkDevice()
+    window.addEventListener("resize", checkDevice)
+    return () => window.removeEventListener("resize", checkDevice)
   }, [])
 
   const style = {
@@ -40,22 +48,24 @@ export function DraggableOrderCard({ order, ...props }: DraggableOrderCardProps)
     <div
       ref={setNodeRef}
       style={style}
-      className={`relative group ${isDragging ? "opacity-50 z-50" : ""}`}
+      className={`relative group ${isDragging ? "opacity-50 z-50" : ""} ${
+        isDragging ? "" : "cursor-grab active:cursor-grabbing"
+      } touch-manipulation`}
       {...attributes}
       {...listeners}
     >
-      {/* Indicador de arrastre - siempre visible en touch, hover en desktop */}
+      {/* Indicador visual de que es arrastrable */}
       <div
-        className={`absolute right-2 top-2 z-10 p-2 rounded-lg bg-white/90 shadow-sm border transition-opacity ${
-          isTouchDevice ? "opacity-70" : "opacity-0 group-hover:opacity-100"
-        }`}
+        className={`absolute right-2 top-2 z-10 transition-opacity pointer-events-none ${
+          isDesktop ? "opacity-0 group-hover:opacity-100" : "opacity-60"
+        } p-1 rounded bg-white/80 shadow-sm`}
       >
-        <GripVertical className="h-4 w-4 text-gray-500" />
+        <GripVertical className="h-4 w-4 text-gray-400" />
       </div>
 
-      {/* Indicador adicional para touch en la esquina superior izquierda */}
-      {isTouchDevice && (
-        <div className="absolute left-2 top-2 z-10 opacity-50">
+      {/* Indicador adicional en móvil */}
+      {!isDesktop && (
+        <div className="absolute left-2 top-2 z-10 opacity-40 pointer-events-none">
           <div className="flex flex-col space-y-0.5">
             <div className="w-3 h-0.5 bg-gray-400 rounded"></div>
             <div className="w-3 h-0.5 bg-gray-400 rounded"></div>
@@ -64,11 +74,7 @@ export function DraggableOrderCard({ order, ...props }: DraggableOrderCardProps)
         </div>
       )}
 
-      <div
-        className={`${isDragging ? "" : "cursor-grab active:cursor-grabbing"} ${isTouchDevice ? "touch-manipulation" : ""}`}
-      >
-        <OrderCard order={order} {...props} />
-      </div>
+      <OrderCard order={order} {...props} />
     </div>
   )
 }
