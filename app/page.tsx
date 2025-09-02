@@ -1,14 +1,19 @@
 'use client'
 
-import { useState } from 'react'
-import { Plus, Trash2, ShoppingCart, Utensils } from 'lucide-react'
+import { useState, useMemo } from 'react'
+import { Plus, Trash2, ShoppingCart, Utensils, Search } from 'lucide-react'
 import MenuItem from '@/components/MenuItem'
 import OrderSummary from '@/components/OrderSummary'
-import { MenuItemType, OrderItem } from '@/types'
+import SearchBar from '@/components/SearchBar'
+import { MenuItemType, OrderItem, SearchFilters } from '@/types'
 
 export default function Home() {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([])
   const [showAddItem, setShowAddItem] = useState(false)
+  const [searchFilters, setSearchFilters] = useState<SearchFilters>({
+    searchTerm: '',
+    selectedCategory: ''
+  })
 
   const menuItems: MenuItemType[] = [
     {
@@ -43,13 +48,33 @@ export default function Home() {
     }
   ]
 
+  // Filtrar elementos del menú basado en la búsqueda
+  const filteredMenuItems = useMemo(() => {
+    return menuItems.map(category => {
+      const filteredItems = category.items.filter(item => {
+        const matchesSearch = searchFilters.searchTerm === '' || 
+          item.name.toLowerCase().includes(searchFilters.searchTerm.toLowerCase())
+        const matchesCategory = searchFilters.selectedCategory === '' || 
+          category.id === searchFilters.selectedCategory
+        
+        return matchesSearch && matchesCategory
+      })
+
+      return {
+        ...category,
+        items: filteredItems
+      }
+    }).filter(category => category.items.length > 0)
+  }, [menuItems, searchFilters])
+
   const addToOrder = (item: any, extras: string[] = []) => {
     const newItem: OrderItem = {
       id: `${item.id}-${Date.now()}`,
       name: item.name,
       price: item.price,
       extras: extras,
-      quantity: 1
+      quantity: 1,
+      comments: ''
     }
     setOrderItems([...orderItems, newItem])
   }
@@ -68,7 +93,19 @@ export default function Home() {
     ))
   }
 
+  const updateComments = (itemId: string, comments: string) => {
+    setOrderItems(orderItems.map(item => 
+      item.id === itemId ? { ...item, comments } : item
+    ))
+  }
+
   const total = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+
+  const categories = menuItems.map(category => ({
+    id: category.id,
+    name: category.name,
+    icon: category.icon
+  }))
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -107,25 +144,42 @@ export default function Home() {
               </button>
             </div>
 
-            {/* Categorías del menú */}
+            {/* Barra de búsqueda */}
+            <SearchBar
+              filters={searchFilters}
+              onFiltersChange={setSearchFilters}
+              categories={categories}
+            />
+
+            {/* Categorías del menú filtradas */}
             <div className="space-y-6">
-              {menuItems.map((category) => (
-                <div key={category.id} className="card">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <span className="text-2xl">{category.icon}</span>
-                    <h3 className="text-lg font-semibold text-gray-900">{category.name}</h3>
+              {filteredMenuItems.length > 0 ? (
+                filteredMenuItems.map((category) => (
+                  <div key={category.id} className="card">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <span className="text-2xl">{category.icon}</span>
+                      <h3 className="text-lg font-semibold text-gray-900">{category.name}</h3>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {category.items.map((item) => (
+                        <MenuItem
+                          key={item.id}
+                          item={item}
+                          onAddToOrder={addToOrder}
+                        />
+                      ))}
+                    </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {category.items.map((item) => (
-                      <MenuItem
-                        key={item.id}
-                        item={item}
-                        onAddToOrder={addToOrder}
-                      />
-                    ))}
+                ))
+              ) : (
+                <div className="card text-center py-8">
+                  <div className="text-gray-400 mb-2">
+                    <Search className="mx-auto h-12 w-12" />
                   </div>
+                  <p className="text-gray-500">No se encontraron resultados</p>
+                  <p className="text-sm text-gray-400">Intenta ajustar los filtros de búsqueda</p>
                 </div>
-              ))}
+              )}
 
               {/* Formulario para agregar nueva entrada */}
               {showAddItem && (
@@ -173,6 +227,7 @@ export default function Home() {
               items={orderItems}
               onRemoveItem={removeFromOrder}
               onUpdateQuantity={updateQuantity}
+              onUpdateComments={updateComments}
               total={total}
             />
           </div>

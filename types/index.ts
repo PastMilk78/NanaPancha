@@ -18,4 +18,10 @@ export interface OrderItem {
   price: number
   extras: string[]
   quantity: number
+  comments?: string
+}
+
+export interface SearchFilters {
+  searchTerm: string
+  selectedCategory: string
 }
