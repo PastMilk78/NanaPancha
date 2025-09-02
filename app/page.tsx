@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { Plus, Trash2, ShoppingCart, Utensils, Search } from 'lucide-react'
 import MenuItem from '@/components/MenuItem'
 import OrderSummary from '@/components/OrderSummary'
@@ -13,6 +13,7 @@ export default function Home() {
     searchTerm: '',
     selectedCategory: ''
   })
+  const orderSummaryRef = useRef<HTMLDivElement>(null)
 
   // Memoizar menuItems para evitar recreación en cada render
   const menuItems: MenuItemType[] = useMemo(() => [
@@ -32,8 +33,9 @@ export default function Home() {
             { id: 'aceitunas', name: 'Aceitunas', type: 'additive', pricePerUnit: 0.75 },
             { 
               id: 'salsa', 
-              name: 'Salsa', 
+              name: 'Salsas', 
               type: 'option', 
+              allowMultiple: true,
               options: [
                 { name: 'Salsa de tomate', price: 0 },
                 { name: 'Salsa blanca', price: 1.00 },
@@ -52,8 +54,9 @@ export default function Home() {
             { id: 'aceitunas', name: 'Aceitunas', type: 'additive', pricePerUnit: 0.75 },
             { 
               id: 'salsa', 
-              name: 'Salsa', 
+              name: 'Salsas', 
               type: 'option', 
+              allowMultiple: true,
               options: [
                 { name: 'Salsa de tomate', price: 0 },
                 { name: 'Salsa blanca', price: 1.00 },
@@ -72,8 +75,9 @@ export default function Home() {
             { id: 'pina', name: 'Piña', type: 'additive', pricePerUnit: 0.50 },
             { 
               id: 'salsa', 
-              name: 'Salsa', 
+              name: 'Salsas', 
               type: 'option', 
+              allowMultiple: true,
               options: [
                 { name: 'Salsa de tomate', price: 0 },
                 { name: 'Salsa blanca', price: 1.00 },
@@ -161,8 +165,9 @@ export default function Home() {
             { id: 'crutones', name: 'Crutones', type: 'additive', pricePerUnit: 0.50 },
             { 
               id: 'aderezo', 
-              name: 'Aderezo', 
+              name: 'Aderezos', 
               type: 'option', 
+              allowMultiple: true,
               options: [
                 { name: 'César', price: 0 },
                 { name: 'Ranch', price: 0.50 },
@@ -256,6 +261,13 @@ export default function Home() {
     ))
   }
 
+  const scrollToOrderSummary = () => {
+    orderSummaryRef.current?.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    })
+  }
+
   // Calcular total incluyendo modificadores
   const total = useMemo(() => {
     return orderItems.reduce((sum, item) => {
@@ -284,7 +296,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-white shadow-sm border-b sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
@@ -292,12 +304,21 @@ export default function Home() {
               <h1 className="text-2xl font-bold text-gray-900">Mesero Nana</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <ShoppingCart className="h-6 w-6 text-gray-600" />
-                <span className="text-lg font-semibold text-gray-900">
-                  ${total.toFixed(2)}
-                </span>
-              </div>
+              <button
+                onClick={scrollToOrderSummary}
+                className="flex items-center space-x-3 bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 shadow-md"
+              >
+                <ShoppingCart className="h-6 w-6" />
+                <div className="text-left">
+                  <div className="text-sm font-medium">Ver Pedido</div>
+                  <div className="text-lg font-bold">${total.toFixed(2)}</div>
+                </div>
+                {orderItems.length > 0 && (
+                  <div className="bg-white text-primary-600 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">
+                    {orderItems.length}
+                  </div>
+                )}
+              </button>
             </div>
           </div>
         </div>
@@ -352,7 +373,7 @@ export default function Home() {
           </div>
 
           {/* Resumen del pedido */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1" ref={orderSummaryRef}>
             <OrderSummary
               items={orderItems}
               onRemoveItem={removeFromOrder}

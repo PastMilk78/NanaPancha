@@ -11,6 +11,7 @@ export interface Modifier {
   type: 'additive' | 'subtractive' | 'option'
   options?: ModifierOption[]
   pricePerUnit?: number // Precio por unidad extra
+  allowMultiple?: boolean // Permite selección múltiple para opciones
 }
 
 export interface ModifierOption {
@@ -38,9 +39,9 @@ export interface ModifierSelection {
   modifierId: string
   modifierName: string
   value: number // -1 para quitar, 0 para normal, 1+ para extra
-  option?: string // Para modificadores de tipo 'option'
+  options?: string[] // Para modificadores de tipo 'option' con selección múltiple
   pricePerUnit?: number // Precio por unidad extra
-  optionPrice?: number // Precio de la opción seleccionada
+  optionPrice?: number // Precio total de las opciones seleccionadas
 }
 
 export interface SearchFilters {

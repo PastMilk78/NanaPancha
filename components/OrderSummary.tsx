@@ -39,8 +39,8 @@ export default function OrderSummary({
   }
 
   const renderModifierText = (modifier: any) => {
-    if (modifier.option) {
-      return modifier.option
+    if (modifier.options && modifier.options.length > 0) {
+      return modifier.options.join(', ')
     }
     
     if (modifier.value === -1) {

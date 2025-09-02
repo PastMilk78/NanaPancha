@@ -18,6 +18,11 @@ export default function MenuItem({ item, onAddToOrder }: MenuItemProps) {
     return modifier?.value || 0
   }
 
+  const getSelectedOptions = (modifierId: string): string[] => {
+    const modifier = selectedModifiers.find(m => m.modifierId === modifierId)
+    return modifier?.options || []
+  }
+
   const updateModifier = (modifierId: string, modifierName: string, value: number, option?: string, pricePerUnit?: number, optionPrice?: number) => {
     const existingIndex = selectedModifiers.findIndex(m => m.modifierId === modifierId)
     
@@ -50,6 +55,52 @@ export default function MenuItem({ item, onAddToOrder }: MenuItemProps) {
     }
   }
 
+  const toggleOption = (modifierId: string, modifierName: string, optionName: string, optionPrice: number) => {
+    const existingIndex = selectedModifiers.findIndex(m => m.modifierId === modifierId)
+    const currentOptions = getSelectedOptions(modifierId)
+    const isSelected = currentOptions.includes(optionName)
+    
+    let newOptions: string[]
+    if (isSelected) {
+      // Remover opción
+      newOptions = currentOptions.filter(opt => opt !== optionName)
+    } else {
+      // Agregar opción
+      newOptions = [...currentOptions, optionName]
+    }
+    
+    // Calcular precio total de las opciones seleccionadas
+    const totalOptionPrice = newOptions.reduce((total, opt) => {
+      const option = item.modifiers.find(m => m.id === modifierId)?.options?.find(o => o.name === opt)
+      return total + (option?.price || 0)
+    }, 0)
+    
+    if (existingIndex >= 0) {
+      if (newOptions.length === 0) {
+        // Remover modificador si no hay opciones seleccionadas
+        setSelectedModifiers(selectedModifiers.filter((_, index) => index !== existingIndex))
+      } else {
+        // Actualizar opciones existentes
+        const updated = [...selectedModifiers]
+        updated[existingIndex] = { 
+          ...updated[existingIndex], 
+          options: newOptions,
+          optionPrice: totalOptionPrice
+        }
+        setSelectedModifiers(updated)
+      }
+    } else if (newOptions.length > 0) {
+      // Agregar nuevo modificador con opciones
+      setSelectedModifiers([...selectedModifiers, { 
+        modifierId, 
+        modifierName, 
+        value: 1, 
+        options: newOptions,
+        optionPrice: totalOptionPrice
+      }])
+    }
+  }
+
   const handleAddToOrder = () => {
     onAddToOrder(item, selectedModifiers)
     setSelectedModifiers([])
@@ -58,31 +109,57 @@ export default function MenuItem({ item, onAddToOrder }: MenuItemProps) {
 
   const renderModifierControls = (modifier: any) => {
     const currentValue = getModifierValue(modifier.id)
+    const selectedOptions = getSelectedOptions(modifier.id)
 
     if (modifier.type === 'option' && modifier.options) {
       return (
         <div className="space-y-2">
-          <p className="text-sm text-gray-600 mb-2">Seleccionar opción:</p>
+          <p className="text-sm text-gray-600 mb-2">
+            Seleccionar {modifier.allowMultiple ? 'opciones' : 'opción'}:
+          </p>
           <div className="grid grid-cols-2 gap-2">
-            {modifier.options.map((option: any) => (
-              <button
-                key={option.name}
-                onClick={() => updateModifier(modifier.id, modifier.name, 1, option.name, undefined, option.price)}
-                className={`px-3 py-2 text-sm rounded-lg border transition-colors ${
-                  selectedModifiers.find(m => m.modifierId === modifier.id && m.option === option.name)
-                    ? 'bg-primary-500 text-white border-primary-500'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                }`}
-              >
-                <div className="text-center">
-                  <div>{option.name}</div>
-                  {option.price > 0 && (
-                    <div className="text-xs opacity-75">+${option.price.toFixed(2)}</div>
-                  )}
-                </div>
-              </button>
-            ))}
+            {modifier.options.map((option: any) => {
+              const isSelected = selectedOptions.includes(option.name)
+              return (
+                <button
+                  key={option.name}
+                  onClick={() => toggleOption(modifier.id, modifier.name, option.name, option.price || 0)}
+                  className={`px-3 py-2 text-sm rounded-lg border transition-colors ${
+                    isSelected
+                      ? 'bg-primary-500 text-white border-primary-500'
+                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  <div className="text-center">
+                    <div className="flex items-center justify-center space-x-2">
+                      {modifier.allowMultiple && (
+                        <div className={`w-4 h-4 rounded border-2 ${
+                          isSelected 
+                            ? 'bg-white border-white' 
+                            : 'border-gray-300'
+                        }`}>
+                          {isSelected && (
+                            <div className="w-2 h-2 bg-primary-500 rounded-sm mx-auto mt-0.5" />
+                          )}
+                        </div>
+                      )}
+                      <span>{option.name}</span>
+                    </div>
+                    {option.price > 0 && (
+                      <div className="text-xs opacity-75 mt-1">
+                        +${option.price.toFixed(2)}
+                      </div>
+                    )}
+                  </div>
+                </button>
+              )
+            })}
           </div>
+          {modifier.allowMultiple && selectedOptions.length > 0 && (
+            <div className="text-xs text-primary-600 bg-primary-50 px-2 py-1 rounded">
+              Seleccionadas: {selectedOptions.join(', ')}
+            </div>
+          )}
         </div>
       )
     }
