@@ -9,7 +9,13 @@ export interface Modifier {
   id: string
   name: string
   type: 'additive' | 'subtractive' | 'option'
-  options?: string[]
+  options?: ModifierOption[]
+  pricePerUnit?: number // Precio por unidad extra
+}
+
+export interface ModifierOption {
+  name: string
+  price?: number // Precio adicional por esta opción
 }
 
 export interface MenuItemType {
@@ -33,6 +39,8 @@ export interface ModifierSelection {
   modifierName: string
   value: number // -1 para quitar, 0 para normal, 1+ para extra
   option?: string // Para modificadores de tipo 'option'
+  pricePerUnit?: number // Precio por unidad extra
+  optionPrice?: number // Precio de la opción seleccionada
 }
 
 export interface SearchFilters {

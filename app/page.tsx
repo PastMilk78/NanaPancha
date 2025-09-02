@@ -26,11 +26,20 @@ export default function Home() {
           name: 'Pizza Margherita',
           price: 12.99,
           modifiers: [
-            { id: 'queso', name: 'Queso', type: 'additive' },
-            { id: 'pepperoni', name: 'Pepperoni', type: 'additive' },
-            { id: 'champinones', name: 'Champiñones', type: 'additive' },
-            { id: 'aceitunas', name: 'Aceitunas', type: 'additive' },
-            { id: 'salsa', name: 'Salsa', type: 'option', options: ['Salsa de tomate', 'Salsa blanca', 'Salsa picante'] }
+            { id: 'queso', name: 'Queso', type: 'additive', pricePerUnit: 1.50 },
+            { id: 'pepperoni', name: 'Pepperoni', type: 'additive', pricePerUnit: 2.00 },
+            { id: 'champinones', name: 'Champiñones', type: 'additive', pricePerUnit: 1.00 },
+            { id: 'aceitunas', name: 'Aceitunas', type: 'additive', pricePerUnit: 0.75 },
+            { 
+              id: 'salsa', 
+              name: 'Salsa', 
+              type: 'option', 
+              options: [
+                { name: 'Salsa de tomate', price: 0 },
+                { name: 'Salsa blanca', price: 1.00 },
+                { name: 'Salsa picante', price: 0.50 }
+              ] 
+            }
           ]
         },
         {
@@ -38,10 +47,19 @@ export default function Home() {
           name: 'Pizza Pepperoni',
           price: 14.99,
           modifiers: [
-            { id: 'queso', name: 'Queso', type: 'additive' },
-            { id: 'pepperoni', name: 'Pepperoni', type: 'additive' },
-            { id: 'aceitunas', name: 'Aceitunas', type: 'additive' },
-            { id: 'salsa', name: 'Salsa', type: 'option', options: ['Salsa de tomate', 'Salsa blanca', 'Salsa picante'] }
+            { id: 'queso', name: 'Queso', type: 'additive', pricePerUnit: 1.50 },
+            { id: 'pepperoni', name: 'Pepperoni', type: 'additive', pricePerUnit: 2.00 },
+            { id: 'aceitunas', name: 'Aceitunas', type: 'additive', pricePerUnit: 0.75 },
+            { 
+              id: 'salsa', 
+              name: 'Salsa', 
+              type: 'option', 
+              options: [
+                { name: 'Salsa de tomate', price: 0 },
+                { name: 'Salsa blanca', price: 1.00 },
+                { name: 'Salsa picante', price: 0.50 }
+              ] 
+            }
           ]
         },
         {
@@ -49,10 +67,19 @@ export default function Home() {
           name: 'Pizza Hawaiana',
           price: 15.99,
           modifiers: [
-            { id: 'queso', name: 'Queso', type: 'additive' },
-            { id: 'jamon', name: 'Jamón', type: 'additive' },
-            { id: 'pina', name: 'Piña', type: 'additive' },
-            { id: 'salsa', name: 'Salsa', type: 'option', options: ['Salsa de tomate', 'Salsa blanca', 'Salsa BBQ'] }
+            { id: 'queso', name: 'Queso', type: 'additive', pricePerUnit: 1.50 },
+            { id: 'jamon', name: 'Jamón', type: 'additive', pricePerUnit: 2.50 },
+            { id: 'pina', name: 'Piña', type: 'additive', pricePerUnit: 0.50 },
+            { 
+              id: 'salsa', 
+              name: 'Salsa', 
+              type: 'option', 
+              options: [
+                { name: 'Salsa de tomate', price: 0 },
+                { name: 'Salsa blanca', price: 1.00 },
+                { name: 'Salsa BBQ', price: 1.50 }
+              ] 
+            }
           ]
         }
       ]
@@ -67,9 +94,18 @@ export default function Home() {
           name: 'Coca Cola',
           price: 2.99,
           modifiers: [
-            { id: 'hielo', name: 'Hielo', type: 'additive' },
-            { id: 'limon', name: 'Limón', type: 'additive' },
-            { id: 'azucar', name: 'Azúcar', type: 'option', options: ['Con azúcar', 'Sin azúcar', 'Light'] }
+            { id: 'hielo', name: 'Hielo', type: 'additive', pricePerUnit: 0 },
+            { id: 'limon', name: 'Limón', type: 'additive', pricePerUnit: 0.25 },
+            { 
+              id: 'azucar', 
+              name: 'Azúcar', 
+              type: 'option', 
+              options: [
+                { name: 'Con azúcar', price: 0 },
+                { name: 'Sin azúcar', price: 0 },
+                { name: 'Light', price: 0.50 }
+              ] 
+            }
           ]
         },
         {
@@ -77,9 +113,17 @@ export default function Home() {
           name: 'Agua',
           price: 1.99,
           modifiers: [
-            { id: 'hielo', name: 'Hielo', type: 'additive' },
-            { id: 'limon', name: 'Limón', type: 'additive' },
-            { id: 'gas', name: 'Gas', type: 'option', options: ['Con gas', 'Sin gas'] }
+            { id: 'hielo', name: 'Hielo', type: 'additive', pricePerUnit: 0 },
+            { id: 'limon', name: 'Limón', type: 'additive', pricePerUnit: 0.25 },
+            { 
+              id: 'gas', 
+              name: 'Gas', 
+              type: 'option', 
+              options: [
+                { name: 'Con gas', price: 0.50 },
+                { name: 'Sin gas', price: 0 }
+              ] 
+            }
           ]
         },
         {
@@ -87,8 +131,17 @@ export default function Home() {
           name: 'Jugo de Naranja',
           price: 3.99,
           modifiers: [
-            { id: 'hielo', name: 'Hielo', type: 'additive' },
-            { id: 'azucar', name: 'Azúcar', type: 'option', options: ['Natural', 'Con azúcar', 'Sin azúcar'] }
+            { id: 'hielo', name: 'Hielo', type: 'additive', pricePerUnit: 0 },
+            { 
+              id: 'azucar', 
+              name: 'Azúcar', 
+              type: 'option', 
+              options: [
+                { name: 'Natural', price: 0 },
+                { name: 'Con azúcar', price: 0.25 },
+                { name: 'Sin azúcar', price: 0 }
+              ] 
+            }
           ]
         }
       ]
@@ -103,10 +156,20 @@ export default function Home() {
           name: 'Ensalada César',
           price: 8.99,
           modifiers: [
-            { id: 'pollo', name: 'Pollo', type: 'additive' },
-            { id: 'queso', name: 'Queso', type: 'additive' },
-            { id: 'crutones', name: 'Crutones', type: 'additive' },
-            { id: 'aderezo', name: 'Aderezo', type: 'option', options: ['César', 'Ranch', 'Vinagreta', 'Sin aderezo'] }
+            { id: 'pollo', name: 'Pollo', type: 'additive', pricePerUnit: 3.00 },
+            { id: 'queso', name: 'Queso', type: 'additive', pricePerUnit: 1.50 },
+            { id: 'crutones', name: 'Crutones', type: 'additive', pricePerUnit: 0.50 },
+            { 
+              id: 'aderezo', 
+              name: 'Aderezo', 
+              type: 'option', 
+              options: [
+                { name: 'César', price: 0 },
+                { name: 'Ranch', price: 0.50 },
+                { name: 'Vinagreta', price: 0.25 },
+                { name: 'Sin aderezo', price: 0 }
+              ] 
+            }
           ]
         },
         {
@@ -114,9 +177,18 @@ export default function Home() {
           name: 'Sopa de Tomate',
           price: 6.99,
           modifiers: [
-            { id: 'crema', name: 'Crema', type: 'additive' },
-            { id: 'pan', name: 'Pan', type: 'additive' },
-            { id: 'especias', name: 'Especias', type: 'option', options: ['Suave', 'Media', 'Picante'] }
+            { id: 'crema', name: 'Crema', type: 'additive', pricePerUnit: 0.75 },
+            { id: 'pan', name: 'Pan', type: 'additive', pricePerUnit: 0.50 },
+            { 
+              id: 'especias', 
+              name: 'Especias', 
+              type: 'option', 
+              options: [
+                { name: 'Suave', price: 0 },
+                { name: 'Media', price: 0.25 },
+                { name: 'Picante', price: 0.50 }
+              ] 
+            }
           ]
         },
         {
@@ -124,9 +196,9 @@ export default function Home() {
           name: 'Bruschetta',
           price: 5.99,
           modifiers: [
-            { id: 'queso', name: 'Queso', type: 'additive' },
-            { id: 'ajo', name: 'Ajo', type: 'additive' },
-            { id: 'aceite', name: 'Aceite de oliva', type: 'additive' }
+            { id: 'queso', name: 'Queso', type: 'additive', pricePerUnit: 1.00 },
+            { id: 'ajo', name: 'Ajo', type: 'additive', pricePerUnit: 0 },
+            { id: 'aceite', name: 'Aceite de oliva', type: 'additive', pricePerUnit: 0.50 }
           ]
         }
       ]
@@ -184,7 +256,24 @@ export default function Home() {
     ))
   }
 
-  const total = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+  // Calcular total incluyendo modificadores
+  const total = useMemo(() => {
+    return orderItems.reduce((sum, item) => {
+      let itemTotal = item.price * item.quantity
+      
+      // Agregar costo de modificadores
+      item.modifiers.forEach(modifier => {
+        if (modifier.value > 0 && modifier.pricePerUnit) {
+          itemTotal += modifier.pricePerUnit * modifier.value * item.quantity
+        }
+        if (modifier.optionPrice) {
+          itemTotal += modifier.optionPrice * item.quantity
+        }
+      })
+      
+      return sum + itemTotal
+    }, 0)
+  }, [orderItems])
 
   const categories = useMemo(() => menuItems.map(category => ({
     id: category.id,
