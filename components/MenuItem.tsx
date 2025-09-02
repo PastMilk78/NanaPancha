@@ -23,7 +23,7 @@ export default function MenuItem({ item, onAddToOrder }: MenuItemProps) {
     return modifier?.options || []
   }
 
-  const updateModifier = (modifierId: string, modifierName: string, value: number, option?: string, pricePerUnit?: number, optionPrice?: number) => {
+  const updateModifier = (modifierId: string, modifierName: string, value: number, options?: string[], pricePerUnit?: number, optionPrice?: number) => {
     const existingIndex = selectedModifiers.findIndex(m => m.modifierId === modifierId)
     
     if (existingIndex >= 0) {
@@ -36,7 +36,7 @@ export default function MenuItem({ item, onAddToOrder }: MenuItemProps) {
         updated[existingIndex] = { 
           ...updated[existingIndex], 
           value, 
-          option,
+          options,
           pricePerUnit,
           optionPrice
         }
@@ -48,7 +48,7 @@ export default function MenuItem({ item, onAddToOrder }: MenuItemProps) {
         modifierId, 
         modifierName, 
         value, 
-        option,
+        options,
         pricePerUnit,
         optionPrice
       }])
