@@ -5,11 +5,10 @@ import { Plus, Trash2, ShoppingCart, Utensils, Search } from 'lucide-react'
 import MenuItem from '@/components/MenuItem'
 import OrderSummary from '@/components/OrderSummary'
 import SearchBar from '@/components/SearchBar'
-import { MenuItemType, OrderItem, SearchFilters } from '@/types'
+import { MenuItemType, OrderItem, SearchFilters, ModifierSelection } from '@/types'
 
 export default function Home() {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([])
-  const [showAddItem, setShowAddItem] = useState(false)
   const [searchFilters, setSearchFilters] = useState<SearchFilters>({
     searchTerm: '',
     selectedCategory: ''
@@ -22,9 +21,40 @@ export default function Home() {
       name: 'Pizzas',
       icon: '🍕',
       items: [
-        { id: 'pizza-margherita', name: 'Pizza Margherita', price: 12.99, extras: ['Extra queso', 'Extra pepperoni', 'Extra champiñones'] },
-        { id: 'pizza-pepperoni', name: 'Pizza Pepperoni', price: 14.99, extras: ['Extra queso', 'Extra pepperoni', 'Extra aceitunas'] },
-        { id: 'pizza-hawaiana', name: 'Pizza Hawaiana', price: 15.99, extras: ['Extra queso', 'Extra jamón', 'Extra piña'] },
+        {
+          id: 'pizza-margherita',
+          name: 'Pizza Margherita',
+          price: 12.99,
+          modifiers: [
+            { id: 'queso', name: 'Queso', type: 'additive' },
+            { id: 'pepperoni', name: 'Pepperoni', type: 'additive' },
+            { id: 'champinones', name: 'Champiñones', type: 'additive' },
+            { id: 'aceitunas', name: 'Aceitunas', type: 'additive' },
+            { id: 'salsa', name: 'Salsa', type: 'option', options: ['Salsa de tomate', 'Salsa blanca', 'Salsa picante'] }
+          ]
+        },
+        {
+          id: 'pizza-pepperoni',
+          name: 'Pizza Pepperoni',
+          price: 14.99,
+          modifiers: [
+            { id: 'queso', name: 'Queso', type: 'additive' },
+            { id: 'pepperoni', name: 'Pepperoni', type: 'additive' },
+            { id: 'aceitunas', name: 'Aceitunas', type: 'additive' },
+            { id: 'salsa', name: 'Salsa', type: 'option', options: ['Salsa de tomate', 'Salsa blanca', 'Salsa picante'] }
+          ]
+        },
+        {
+          id: 'pizza-hawaiana',
+          name: 'Pizza Hawaiana',
+          price: 15.99,
+          modifiers: [
+            { id: 'queso', name: 'Queso', type: 'additive' },
+            { id: 'jamon', name: 'Jamón', type: 'additive' },
+            { id: 'pina', name: 'Piña', type: 'additive' },
+            { id: 'salsa', name: 'Salsa', type: 'option', options: ['Salsa de tomate', 'Salsa blanca', 'Salsa BBQ'] }
+          ]
+        }
       ]
     },
     {
@@ -32,9 +62,35 @@ export default function Home() {
       name: 'Bebidas',
       icon: '🥤',
       items: [
-        { id: 'coca-cola', name: 'Coca Cola', price: 2.99, extras: ['Sin hielo', 'Extra hielo', 'Sin azúcar'] },
-        { id: 'agua', name: 'Agua', price: 1.99, extras: ['Con limón', 'Con gas', 'Sin gas'] },
-        { id: 'jugo-naranja', name: 'Jugo de Naranja', price: 3.99, extras: ['Sin azúcar', 'Con hielo', 'Natural'] },
+        {
+          id: 'coca-cola',
+          name: 'Coca Cola',
+          price: 2.99,
+          modifiers: [
+            { id: 'hielo', name: 'Hielo', type: 'additive' },
+            { id: 'limon', name: 'Limón', type: 'additive' },
+            { id: 'azucar', name: 'Azúcar', type: 'option', options: ['Con azúcar', 'Sin azúcar', 'Light'] }
+          ]
+        },
+        {
+          id: 'agua',
+          name: 'Agua',
+          price: 1.99,
+          modifiers: [
+            { id: 'hielo', name: 'Hielo', type: 'additive' },
+            { id: 'limon', name: 'Limón', type: 'additive' },
+            { id: 'gas', name: 'Gas', type: 'option', options: ['Con gas', 'Sin gas'] }
+          ]
+        },
+        {
+          id: 'jugo-naranja',
+          name: 'Jugo de Naranja',
+          price: 3.99,
+          modifiers: [
+            { id: 'hielo', name: 'Hielo', type: 'additive' },
+            { id: 'azucar', name: 'Azúcar', type: 'option', options: ['Natural', 'Con azúcar', 'Sin azúcar'] }
+          ]
+        }
       ]
     },
     {
@@ -42,9 +98,37 @@ export default function Home() {
       name: 'Ensaladas/Entradas',
       icon: '🥗',
       items: [
-        { id: 'ensalada-cesar', name: 'Ensalada César', price: 8.99, extras: ['Extra pollo', 'Extra queso', 'Sin crutones'] },
-        { id: 'sopa-tomate', name: 'Sopa de Tomate', price: 6.99, extras: ['Extra crema', 'Sin crema', 'Con pan'] },
-        { id: 'bruschetta', name: 'Bruschetta', price: 5.99, extras: ['Extra queso', 'Sin ajo', 'Con aceite de oliva'] },
+        {
+          id: 'ensalada-cesar',
+          name: 'Ensalada César',
+          price: 8.99,
+          modifiers: [
+            { id: 'pollo', name: 'Pollo', type: 'additive' },
+            { id: 'queso', name: 'Queso', type: 'additive' },
+            { id: 'crutones', name: 'Crutones', type: 'additive' },
+            { id: 'aderezo', name: 'Aderezo', type: 'option', options: ['César', 'Ranch', 'Vinagreta', 'Sin aderezo'] }
+          ]
+        },
+        {
+          id: 'sopa-tomate',
+          name: 'Sopa de Tomate',
+          price: 6.99,
+          modifiers: [
+            { id: 'crema', name: 'Crema', type: 'additive' },
+            { id: 'pan', name: 'Pan', type: 'additive' },
+            { id: 'especias', name: 'Especias', type: 'option', options: ['Suave', 'Media', 'Picante'] }
+          ]
+        },
+        {
+          id: 'bruschetta',
+          name: 'Bruschetta',
+          price: 5.99,
+          modifiers: [
+            { id: 'queso', name: 'Queso', type: 'additive' },
+            { id: 'ajo', name: 'Ajo', type: 'additive' },
+            { id: 'aceite', name: 'Aceite de oliva', type: 'additive' }
+          ]
+        }
       ]
     }
   ], [])
@@ -68,12 +152,12 @@ export default function Home() {
     }).filter(category => category.items.length > 0)
   }, [menuItems, searchFilters])
 
-  const addToOrder = (item: any, extras: string[] = []) => {
+  const addToOrder = (item: any, modifiers: ModifierSelection[] = []) => {
     const newItem: OrderItem = {
       id: `${item.id}-${Date.now()}`,
       name: item.name,
       price: item.price,
-      extras: extras,
+      modifiers: modifiers,
       quantity: 1,
       comments: ''
     }
@@ -136,13 +220,7 @@ export default function Home() {
           <div className="lg:col-span-2">
             <div className="mb-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Menú</h2>
-              <button
-                onClick={() => setShowAddItem(!showAddItem)}
-                className="btn-primary flex items-center space-x-2"
-              >
-                <Plus className="h-5 w-5" />
-                <span>Agregar Nueva Entrada</span>
-              </button>
+              <p className="text-gray-600">Selecciona los platos y personaliza según las preferencias del cliente</p>
             </div>
 
             {/* Barra de búsqueda */}
@@ -179,44 +257,6 @@ export default function Home() {
                   </div>
                   <p className="text-gray-500">No se encontraron resultados</p>
                   <p className="text-sm text-gray-400">Intenta ajustar los filtros de búsqueda</p>
-                </div>
-              )}
-
-              {/* Formulario para agregar nueva entrada */}
-              {showAddItem && (
-                <div className="card">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Agregar Nueva Entrada</h3>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Nombre de la entrada
-                      </label>
-                      <input
-                        type="text"
-                        className="input-field"
-                        placeholder="Ej: Hamburguesas"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Icono
-                      </label>
-                      <input
-                        type="text"
-                        className="input-field"
-                        placeholder="🍔"
-                      />
-                    </div>
-                    <div className="flex space-x-3">
-                      <button className="btn-primary">Guardar</button>
-                      <button 
-                        onClick={() => setShowAddItem(false)}
-                        className="btn-secondary"
-                      >
-                        Cancelar
-                      </button>
-                    </div>
-                  </div>
                 </div>
               )}
             </div>

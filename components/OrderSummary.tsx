@@ -38,6 +38,20 @@ export default function OrderSummary({
     setTempComments('')
   }
 
+  const renderModifierText = (modifier: any) => {
+    if (modifier.option) {
+      return modifier.option
+    }
+    
+    if (modifier.value === -1) {
+      return `Sin ${modifier.modifierName}`
+    } else if (modifier.value === 0) {
+      return modifier.modifierName
+    } else {
+      return `Extra ${modifier.modifierName} (${modifier.value})`
+    }
+  }
+
   if (items.length === 0) {
     return (
       <div className="card">
@@ -65,11 +79,11 @@ export default function OrderSummary({
             <div className="flex justify-between items-start mb-2">
               <div className="flex-1">
                 <h4 className="font-medium text-gray-900">{item.name}</h4>
-                {item.extras.length > 0 && (
+                {item.modifiers.length > 0 && (
                   <div className="text-sm text-gray-600 mt-1">
-                    {item.extras.map((extra, index) => (
+                    {item.modifiers.map((modifier, index) => (
                       <span key={index} className="inline-block bg-gray-100 rounded-full px-2 py-1 text-xs mr-1 mb-1">
-                        {extra}
+                        {renderModifierText(modifier)}
                       </span>
                     ))}
                   </div>
