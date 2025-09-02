@@ -15,7 +15,8 @@ export default function Home() {
     selectedCategory: ''
   })
 
-  const menuItems: MenuItemType[] = [
+  // Memoizar menuItems para evitar recreación en cada render
+  const menuItems: MenuItemType[] = useMemo(() => [
     {
       id: 'pizzas',
       name: 'Pizzas',
@@ -46,7 +47,7 @@ export default function Home() {
         { id: 'bruschetta', name: 'Bruschetta', price: 5.99, extras: ['Extra queso', 'Sin ajo', 'Con aceite de oliva'] },
       ]
     }
-  ]
+  ], [])
 
   // Filtrar elementos del menú basado en la búsqueda
   const filteredMenuItems = useMemo(() => {
@@ -101,11 +102,11 @@ export default function Home() {
 
   const total = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
 
-  const categories = menuItems.map(category => ({
+  const categories = useMemo(() => menuItems.map(category => ({
     id: category.id,
     name: category.name,
     icon: category.icon
-  }))
+  })), [menuItems])
 
   return (
     <div className="min-h-screen bg-gray-50">

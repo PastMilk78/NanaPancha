@@ -72,7 +72,7 @@ export default function SearchBar({ filters, onFiltersChange, categories }: Sear
         <div className="mt-3 flex flex-wrap gap-2">
           {filters.searchTerm && (
             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary-100 text-primary-800">
-              Buscar: "{filters.searchTerm}"
+              Buscar: &ldquo;{filters.searchTerm}&rdquo;
             </span>
           )}
           {filters.selectedCategory && (
