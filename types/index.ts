@@ -48,3 +48,46 @@ export interface SearchFilters {
   searchTerm: string
   selectedCategory: string
 }
+
+// Tipos para el sistema de comandas unificado
+export interface Order {
+  id: string
+  orderNumber: string
+  source: 'whatsapp' | 'telefono' | 'interno' | 'web'
+  status: 'pendiente' | 'en_preparacion' | 'listo' | 'entregado' | 'cancelado'
+  customerInfo: CustomerInfo
+  items: OrderItem[]
+  total: number
+  createdAt: Date
+  updatedAt: Date
+  estimatedTime?: number // Tiempo estimado en minutos
+  notes?: string
+  assignedTo?: string // ID del mesero/cocinero asignado
+}
+
+export interface CustomerInfo {
+  name?: string
+  phone?: string
+  address?: string
+  email?: string
+  deliveryType: 'domicilio' | 'recoger' | 'mesa'
+  tableNumber?: string
+  deliveryAddress?: string
+}
+
+export interface OrderFilters {
+  status?: string
+  source?: string
+  dateFrom?: Date
+  dateTo?: Date
+  searchTerm?: string
+}
+
+export interface OrderStats {
+  total: number
+  pending: number
+  inPreparation: number
+  ready: number
+  delivered: number
+  cancelled: number
+}

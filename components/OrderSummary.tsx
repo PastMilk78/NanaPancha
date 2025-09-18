@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Trash2, Plus, Minus, MessageSquare } from 'lucide-react'
+import { Trash2, Plus, Minus, MessageSquare, User, Phone, MapPin } from 'lucide-react'
 import { OrderItem } from '@/types'
+import { useOrders } from '@/hooks/useOrders'
 
 interface OrderSummaryProps {
   items: OrderItem[]
@@ -21,6 +22,14 @@ export default function OrderSummary({
 }: OrderSummaryProps) {
   const [editingComments, setEditingComments] = useState<string | null>(null)
   const [tempComments, setTempComments] = useState('')
+  const [showCustomerForm, setShowCustomerForm] = useState(false)
+  const [customerInfo, setCustomerInfo] = useState({
+    name: '',
+    phone: '',
+    tableNumber: '',
+    deliveryType: 'mesa' as 'mesa' | 'domicilio' | 'recoger'
+  })
+  const { createOrder } = useOrders()
 
   const handleEditComments = (itemId: string, currentComments: string) => {
     setEditingComments(itemId)
@@ -214,14 +223,140 @@ export default function OrderSummary({
         </div>
         
         <div className="space-y-3">
-          <button className="w-full btn-primary py-3 text-lg">
+          <button 
+            onClick={() => setShowCustomerForm(true)}
+            className="w-full btn-primary py-3 text-lg"
+          >
             Finalizar Pedido
           </button>
-          <button className="w-full btn-secondary py-3 text-lg">
+          <button 
+            onClick={() => {
+              // Limpiar todos los items del pedido
+              items.forEach(item => onRemoveItem(item.id))
+            }}
+            className="w-full btn-secondary py-3 text-lg"
+          >
             Limpiar Pedido
           </button>
         </div>
       </div>
+
+      {/* Modal de información del cliente */}
+      {showCustomerForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-md w-full">
+            <div className="p-6 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900">
+                Información del Cliente
+              </h3>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Tipo de Pedido
+                </label>
+                <select
+                  value={customerInfo.deliveryType}
+                  onChange={(e) => setCustomerInfo({...customerInfo, deliveryType: e.target.value as any})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                >
+                  <option value="mesa">Mesa</option>
+                  <option value="domicilio">Domicilio</option>
+                  <option value="recoger">Recoger</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Nombre del Cliente
+                </label>
+                <input
+                  type="text"
+                  value={customerInfo.name}
+                  onChange={(e) => setCustomerInfo({...customerInfo, name: e.target.value})}
+                  placeholder="Nombre del cliente"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Teléfono
+                </label>
+                <input
+                  type="tel"
+                  value={customerInfo.phone}
+                  onChange={(e) => setCustomerInfo({...customerInfo, phone: e.target.value})}
+                  placeholder="Número de teléfono"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                />
+              </div>
+
+              {customerInfo.deliveryType === 'mesa' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Número de Mesa
+                  </label>
+                  <input
+                    type="text"
+                    value={customerInfo.tableNumber}
+                    onChange={(e) => setCustomerInfo({...customerInfo, tableNumber: e.target.value})}
+                    placeholder="Número de mesa"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  />
+                </div>
+              )}
+
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h4 className="font-medium text-gray-900 mb-2">Resumen del Pedido</h4>
+                <div className="space-y-1 text-sm text-gray-600">
+                  {items.map((item) => (
+                    <div key={item.id} className="flex justify-between">
+                      <span>{item.name} × {item.quantity}</span>
+                      <span>${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                  ))}
+                  <div className="border-t border-gray-200 pt-2 mt-2">
+                    <div className="flex justify-between font-semibold">
+                      <span>Total:</span>
+                      <span>${total.toFixed(2)}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 border-t border-gray-200 flex justify-end space-x-3">
+              <button
+                onClick={() => setShowCustomerForm(false)}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={() => {
+                  const newOrder = createOrder(items, customerInfo, 'interno')
+                  setShowCustomerForm(false)
+                  // Limpiar el pedido después de crear la orden
+                  items.forEach(item => onRemoveItem(item.id))
+                  // Resetear información del cliente
+                  setCustomerInfo({
+                    name: '',
+                    phone: '',
+                    tableNumber: '',
+                    deliveryType: 'mesa'
+                  })
+                  alert(`Comanda #${newOrder.orderNumber} creada exitosamente`)
+                }}
+                className="px-4 py-2 text-sm font-medium text-white bg-primary-500 rounded-lg hover:bg-primary-600 transition-colors"
+              >
+                Crear Comanda
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

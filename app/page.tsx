@@ -5,6 +5,8 @@ import { Plus, Trash2, ShoppingCart, Utensils, Search } from 'lucide-react'
 import MenuItem from '@/components/MenuItem'
 import OrderSummary from '@/components/OrderSummary'
 import SearchBar from '@/components/SearchBar'
+import Header from '@/components/Header'
+import ProtectedRoute from '@/components/ProtectedRoute'
 import { MenuItemType, OrderItem, SearchFilters, ModifierSelection } from '@/types'
 
 export default function Home() {
@@ -294,35 +296,29 @@ export default function Home() {
   })), [menuItems])
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-3">
-              <Utensils className="h-8 w-8 text-primary-600" />
-              <h1 className="text-2xl font-bold text-gray-900">Mesero Nana</h1>
+    <ProtectedRoute>
+      <div className="min-h-screen bg-gray-50">
+        {/* Header con autenticación */}
+        <Header />
+        
+        {/* Botón de ver pedido flotante */}
+        <div className="fixed top-20 right-4 z-40">
+          <button
+            onClick={scrollToOrderSummary}
+            className="flex items-center space-x-3 bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 shadow-md"
+          >
+            <ShoppingCart className="h-6 w-6" />
+            <div className="text-left">
+              <div className="text-sm font-medium">Ver Pedido</div>
+              <div className="text-lg font-bold">${total.toFixed(2)}</div>
             </div>
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={scrollToOrderSummary}
-                className="flex items-center space-x-3 bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 shadow-md"
-              >
-                <ShoppingCart className="h-6 w-6" />
-                <div className="text-left">
-                  <div className="text-sm font-medium">Ver Pedido</div>
-                  <div className="text-lg font-bold">${total.toFixed(2)}</div>
-                </div>
-                {orderItems.length > 0 && (
-                  <div className="bg-white text-primary-600 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">
-                    {orderItems.length}
-                  </div>
-                )}
-              </button>
-            </div>
-          </div>
+            {orderItems.length > 0 && (
+              <div className="bg-white text-primary-500 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">
+                {orderItems.length}
+              </div>
+            )}
+          </button>
         </div>
-      </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -384,6 +380,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </div>
+    </ProtectedRoute>
   )
 }
