@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import AdminDashboard from '@/components/AdminDashboard'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import OrderSimulator from '@/components/OrderSimulator'
+import Header from '@/components/Header'
 import { Order } from '@/types'
 import { useOrders } from '@/hooks/useOrders'
 
