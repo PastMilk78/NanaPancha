@@ -1,19 +1,40 @@
 'use client'
 
 import { useState } from 'react'
+import { useAuth } from '@/hooks/useAuth'
+import { useRouter } from 'next/navigation'
 
 export default function LoginForm() {
   const [credentials, setCredentials] = useState({
     username: '',
     password: ''
   })
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  
+  const { login } = useAuth()
+  const router = useRouter()
 
-  console.log('LoginForm renderizando')
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Formulario enviado:', credentials)
-    alert(`Login con: ${credentials.username}`)
+    setIsLoading(true)
+    setError('')
+    
+    try {
+      const response = await login(credentials)
+      
+      if (response.success) {
+        // Redirigir al dashboard o página principal
+        router.push('/')
+      } else {
+        setError(response.message || 'Error en el login')
+      }
+    } catch (error) {
+      console.error('Error en login:', error)
+      setError('Error interno del servidor')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -50,11 +71,18 @@ export default function LoginForm() {
             />
           </div>
           
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+              {error}
+            </div>
+          )}
+          
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+            disabled={isLoading}
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Iniciar Sesión
+            {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
           </button>
         </form>
         
