@@ -230,14 +230,28 @@ export default function AdminPage() {
     )
   }
 
-  return (
-    <ProtectedRoute requiredRoles={['admin', 'cocinero']}>
-      <AdminDashboard 
-        orders={orders}
-        onUpdateOrder={handleUpdateOrder}
-        onDeleteOrder={handleDeleteOrder}
-      />
-      <OrderSimulator />
-    </ProtectedRoute>
-  )
+      return (
+        <ProtectedRoute requiredRoles={['admin', 'cocinero']}>
+          <div className="min-h-screen bg-primary-50">
+            <Header />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <div className="mb-8">
+                <h1 className="text-3xl font-bold text-primary-800 mb-2">
+                  Panel de Administración
+                </h1>
+                <p className="text-primary-600">
+                  Gestión completa de comandas y estadísticas
+                </p>
+              </div>
+              
+              <AdminDashboard 
+                orders={orders}
+                onUpdateOrder={handleUpdateOrder}
+                onDeleteOrder={handleDeleteOrder}
+              />
+              <OrderSimulator />
+            </div>
+          </div>
+        </ProtectedRoute>
+      )
 }
