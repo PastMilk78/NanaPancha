@@ -320,63 +320,64 @@ export default function Home() {
           </button>
         </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Menú */}
-          <div className="lg:col-span-2">
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Menú</h2>
-              <p className="text-gray-600">Selecciona los platos y personaliza según las preferencias del cliente</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Menú */}
+            <div className="lg:col-span-2">
+              <div className="mb-6">
+                <h2 className="text-xl font-semibold text-gray-900 mb-4">Menú</h2>
+                <p className="text-gray-600">Selecciona los platos y personaliza según las preferencias del cliente</p>
+              </div>
+
+              {/* Barra de búsqueda */}
+              <SearchBar
+                filters={searchFilters}
+                onFiltersChange={setSearchFilters}
+                categories={categories}
+              />
+
+              {/* Categorías del menú filtradas */}
+              <div className="space-y-6">
+                {filteredMenuItems.length > 0 ? (
+                  filteredMenuItems.map((category) => (
+                    <div key={category.id} className="card">
+                      <div className="flex items-center space-x-3 mb-4">
+                        <span className="text-2xl">{category.icon}</span>
+                        <h3 className="text-lg font-semibold text-gray-900">{category.name}</h3>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {category.items.map((item) => (
+                          <MenuItem
+                            key={item.id}
+                            item={item}
+                            onAddToOrder={addToOrder}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="card text-center py-8">
+                    <div className="text-gray-400 mb-2">
+                      <Search className="mx-auto h-12 w-12" />
+                    </div>
+                    <p className="text-gray-500">No se encontraron resultados</p>
+                    <p className="text-sm text-gray-400">Intenta ajustar los filtros de búsqueda</p>
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Barra de búsqueda */}
-            <SearchBar
-              filters={searchFilters}
-              onFiltersChange={setSearchFilters}
-              categories={categories}
-            />
-
-            {/* Categorías del menú filtradas */}
-            <div className="space-y-6">
-              {filteredMenuItems.length > 0 ? (
-                filteredMenuItems.map((category) => (
-                  <div key={category.id} className="card">
-                    <div className="flex items-center space-x-3 mb-4">
-                      <span className="text-2xl">{category.icon}</span>
-                      <h3 className="text-lg font-semibold text-gray-900">{category.name}</h3>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {category.items.map((item) => (
-                        <MenuItem
-                          key={item.id}
-                          item={item}
-                          onAddToOrder={addToOrder}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="card text-center py-8">
-                  <div className="text-gray-400 mb-2">
-                    <Search className="mx-auto h-12 w-12" />
-                  </div>
-                  <p className="text-gray-500">No se encontraron resultados</p>
-                  <p className="text-sm text-gray-400">Intenta ajustar los filtros de búsqueda</p>
-                </div>
-              )}
+            {/* Resumen del pedido */}
+            <div className="lg:col-span-1" ref={orderSummaryRef}>
+              <OrderSummary
+                items={orderItems}
+                onRemoveItem={removeFromOrder}
+                onUpdateQuantity={updateQuantity}
+                onUpdateComments={updateComments}
+                total={total}
+              />
             </div>
-          </div>
-
-          {/* Resumen del pedido */}
-          <div className="lg:col-span-1" ref={orderSummaryRef}>
-            <OrderSummary
-              items={orderItems}
-              onRemoveItem={removeFromOrder}
-              onUpdateQuantity={updateQuantity}
-              onUpdateComments={updateComments}
-              total={total}
-            />
           </div>
         </div>
       </div>
