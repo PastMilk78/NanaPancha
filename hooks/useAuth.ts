@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { User, LoginCredentials, AuthResponse } from '@/types/auth'
 
 interface AuthState {
-  user: User | null
+  user: Omit<User, 'password'> | null
   token: string | null
   isAuthenticated: boolean
   isLoading: boolean
