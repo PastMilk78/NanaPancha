@@ -38,11 +38,20 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen bg-primary-50 flex items-center justify-center p-4">
-      <div className="max-w-md w-full card">
-        <h1 className="text-2xl font-bold text-center text-gray-900 mb-6">
-          🍕 Mesero Nana - Login
-        </h1>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
+        <div className="text-center mb-6">
+          <div className="w-16 h-16 bg-black border-2 border-red-500 rounded-lg flex items-center justify-center mx-auto mb-4">
+            <div className="text-center">
+              <div className="text-white font-bold text-sm">Nana</div>
+              <div className="text-white font-bold text-sm">Pancha</div>
+              <div className="text-red-500 text-xs">PIZZERIA</div>
+            </div>
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900">
+            Panel de Órdenes - Login
+          </h1>
+        </div>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -80,7 +89,7 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full btn-primary py-3 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-red-500 hover:bg-red-600 text-white py-3 text-lg rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
           </button>
