@@ -5,6 +5,7 @@ import { CheckCircle, Clock, Package, XCircle, Phone, MessageSquare, User, Globe
 import ProtectedRoute from '@/components/ProtectedRoute'
 import { Order } from '@/types'
 import { useOrders } from '@/hooks/useOrders'
+import Image from 'next/image'
 
 export default function Home() {
   const { orders, updateOrder, deleteOrder } = useOrders()
@@ -98,14 +99,13 @@ export default function Home() {
               <div className="flex items-center space-x-4">
                 {/* Logo NanaPancha */}
                 <div className="relative">
-                  <div className="w-16 h-16 bg-black border-2 border-red-500 rounded-lg flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-white font-bold text-sm">Nana</div>
-                      <div className="text-white font-bold text-sm">Pancha</div>
-                      <div className="text-red-500 text-xs">PIZZERIA</div>
-                    </div>
-                  </div>
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></div>
+                  <Image 
+                    src="/logo.svg" 
+                    alt="NanaPancha Logo" 
+                    width={64} 
+                    height={64}
+                    className="w-16 h-16"
+                  />
                 </div>
                 
                 <div>

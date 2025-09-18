@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 export default function LoginForm() {
   const [credentials, setCredentials] = useState({
@@ -41,13 +42,13 @@ export default function LoginForm() {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
         <div className="text-center mb-6">
-          <div className="w-16 h-16 bg-black border-2 border-red-500 rounded-lg flex items-center justify-center mx-auto mb-4">
-            <div className="text-center">
-              <div className="text-white font-bold text-sm">Nana</div>
-              <div className="text-white font-bold text-sm">Pancha</div>
-              <div className="text-red-500 text-xs">PIZZERIA</div>
-            </div>
-          </div>
+          <Image 
+            src="/logo.svg" 
+            alt="NanaPancha Logo" 
+            width={64} 
+            height={64}
+            className="w-16 h-16 mx-auto mb-4"
+          />
           <h1 className="text-2xl font-bold text-gray-900">
             Panel de Órdenes - Login
           </h1>
