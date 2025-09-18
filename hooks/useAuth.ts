@@ -18,6 +18,12 @@ export const useAuth = () => {
 
   // Verificar token al cargar
   useEffect(() => {
+    // Verificar si estamos en el cliente
+    if (typeof window === 'undefined') {
+      setAuthState(prev => ({ ...prev, isLoading: false }))
+      return
+    }
+
     const token = localStorage.getItem('authToken')
     if (token) {
       // En un caso real, aquí verificarías el token con el backend
@@ -105,9 +111,11 @@ export const useAuth = () => {
       }
       
       if (mockResponse.success && mockResponse.token && mockResponse.user) {
-        // Guardar en localStorage
-        localStorage.setItem('authToken', mockResponse.token)
-        localStorage.setItem('userData', JSON.stringify(mockResponse.user))
+        // Guardar en localStorage (solo en el cliente)
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('authToken', mockResponse.token)
+          localStorage.setItem('userData', JSON.stringify(mockResponse.user))
+        }
         
         setAuthState({
           user: mockResponse.user,
@@ -134,7 +142,7 @@ export const useAuth = () => {
   // Función de logout
   const logout = useCallback(async (): Promise<void> => {
     try {
-      const token = localStorage.getItem('authToken')
+      const token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null
       const ip = await getClientIP()
       const userAgent = getUserAgent()
       
@@ -143,9 +151,11 @@ export const useAuth = () => {
         console.log(`Logout desde IP: ${ip}`)
       }
       
-      // Limpiar localStorage
-      localStorage.removeItem('authToken')
-      localStorage.removeItem('userData')
+      // Limpiar localStorage (solo en el cliente)
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('authToken')
+        localStorage.removeItem('userData')
+      }
       
       setAuthState({
         user: null,

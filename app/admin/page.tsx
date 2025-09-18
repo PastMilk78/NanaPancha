@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import AdminDashboard from '@/components/AdminDashboard'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import OrderSimulator from '@/components/OrderSimulator'
+import ClientOnly from '@/components/ClientOnly'
 import { Order } from '@/types'
 import { useOrders } from '@/hooks/useOrders'
 
@@ -219,25 +220,43 @@ export default function AdminPage() {
 
   if (loading) {
     return (
-      <ProtectedRoute allowedRoles={['admin', 'cocinero']}>
+      <ClientOnly fallback={
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
-            <p className="text-gray-600">Cargando dashboard de administración...</p>
+            <p className="text-gray-600">Cargando aplicación...</p>
           </div>
         </div>
-      </ProtectedRoute>
+      }>
+        <ProtectedRoute allowedRoles={['admin', 'cocinero']}>
+          <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
+              <p className="text-gray-600">Cargando dashboard de administración...</p>
+            </div>
+          </div>
+        </ProtectedRoute>
+      </ClientOnly>
     )
   }
 
   return (
-    <ProtectedRoute allowedRoles={['admin', 'cocinero']}>
-      <AdminDashboard 
-        orders={orders}
-        onUpdateOrder={handleUpdateOrder}
-        onDeleteOrder={handleDeleteOrder}
-      />
-      <OrderSimulator />
-    </ProtectedRoute>
+    <ClientOnly fallback={
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Cargando aplicación...</p>
+        </div>
+      </div>
+    }>
+      <ProtectedRoute allowedRoles={['admin', 'cocinero']}>
+        <AdminDashboard 
+          orders={orders}
+          onUpdateOrder={handleUpdateOrder}
+          onDeleteOrder={handleDeleteOrder}
+        />
+        <OrderSimulator />
+      </ProtectedRoute>
+    </ClientOnly>
   )
 }

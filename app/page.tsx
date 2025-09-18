@@ -7,6 +7,7 @@ import OrderSummary from '@/components/OrderSummary'
 import SearchBar from '@/components/SearchBar'
 import Header from '@/components/Header'
 import ProtectedRoute from '@/components/ProtectedRoute'
+import ClientOnly from '@/components/ClientOnly'
 import { MenuItemType, OrderItem, SearchFilters, ModifierSelection } from '@/types'
 
 export default function Home() {
@@ -296,8 +297,16 @@ export default function Home() {
   })), [menuItems])
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50">
+    <ClientOnly fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Cargando aplicación...</p>
+        </div>
+      </div>
+    }>
+      <ProtectedRoute>
+        <div className="min-h-screen bg-gray-50">
         {/* Header con autenticación */}
         <Header />
         
@@ -380,6 +389,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </ProtectedRoute>
+      </ProtectedRoute>
+    </ClientOnly>
   )
 }

@@ -11,6 +11,9 @@ export function useOrders() {
 
   // Cargar órdenes del localStorage al inicializar
   useEffect(() => {
+    // Verificar si estamos en el cliente
+    if (typeof window === 'undefined') return
+
     const savedOrders = localStorage.getItem(ORDERS_STORAGE_KEY)
     if (savedOrders) {
       try {
@@ -28,7 +31,10 @@ export function useOrders() {
 
   // Guardar órdenes en localStorage cuando cambien
   useEffect(() => {
-    localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders))
+    // Solo guardar en el cliente
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders))
+    }
   }, [orders])
 
   const generateOrderNumber = () => {
