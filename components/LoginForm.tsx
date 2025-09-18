@@ -38,8 +38,8 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen bg-blue-50 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
+    <div className="min-h-screen bg-primary-50 flex items-center justify-center p-4">
+      <div className="max-w-md w-full card">
         <h1 className="text-2xl font-bold text-center text-gray-900 mb-6">
           🍕 Mesero Nana - Login
         </h1>
@@ -53,7 +53,7 @@ export default function LoginForm() {
               type="text"
               value={credentials.username}
               onChange={(e) => setCredentials({...credentials, username: e.target.value})}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              className="input-field"
               placeholder="admin"
             />
           </div>
@@ -66,13 +66,13 @@ export default function LoginForm() {
               type="password"
               value={credentials.password}
               onChange={(e) => setCredentials({...credentials, password: e.target.value})}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              className="input-field"
               placeholder="admin123"
             />
           </div>
           
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
               {error}
             </div>
           )}
@@ -80,7 +80,7 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full btn-primary py-3 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
           </button>

@@ -295,9 +295,9 @@ export default function Home() {
     icon: category.icon
   })), [menuItems])
 
-  return (
-    <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50">
+      return (
+        <ProtectedRoute>
+          <div className="min-h-screen bg-primary-50">
         {/* Header con autenticación */}
         <Header />
         
@@ -305,7 +305,7 @@ export default function Home() {
         <div className="fixed top-20 right-4 z-40">
           <button
             onClick={scrollToOrderSummary}
-            className="flex items-center space-x-3 bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 shadow-md"
+            className="flex items-center space-x-3 bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-xl transition-colors duration-200 shadow-lg border border-primary-600"
           >
             <ShoppingCart className="h-6 w-6" />
             <div className="text-left">
@@ -313,7 +313,7 @@ export default function Home() {
               <div className="text-lg font-bold">${total.toFixed(2)}</div>
             </div>
             {orderItems.length > 0 && (
-              <div className="bg-white text-primary-500 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">
+              <div className="bg-white text-primary-500 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold border border-primary-200">
                 {orderItems.length}
               </div>
             )}

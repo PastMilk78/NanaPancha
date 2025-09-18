@@ -112,91 +112,91 @@ export default function AdminDashboard({ orders, onUpdateOrder, onDeleteOrder }:
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-primary-50 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard de Administración</h1>
-          <p className="text-gray-600">Gestiona todas las comandas de WhatsApp, teléfono e internas</p>
+          <h1 className="text-3xl font-bold text-primary-800 mb-2">Dashboard de Administración</h1>
+          <p className="text-primary-600">Gestiona todas las comandas de WhatsApp, teléfono e internas</p>
         </div>
 
         {/* Estadísticas */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="card">
             <div className="flex items-center">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <TrendingUp className="h-6 w-6 text-blue-600" />
+              <div className="p-2 bg-primary-100 rounded-lg">
+                <TrendingUp className="h-6 w-6 text-primary-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
+                <p className="text-sm font-medium text-primary-600">Total</p>
+                <p className="text-2xl font-bold text-primary-800">{stats.total}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="card">
             <div className="flex items-center">
-              <div className="p-2 bg-yellow-100 rounded-lg">
-                <Clock className="h-6 w-6 text-yellow-600" />
+              <div className="p-2 bg-primary-100 rounded-lg">
+                <Clock className="h-6 w-6 text-primary-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Pendientes</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.pending}</p>
+                <p className="text-sm font-medium text-primary-600">Pendientes</p>
+                <p className="text-2xl font-bold text-primary-800">{stats.pending}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="card">
             <div className="flex items-center">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <Package className="h-6 w-6 text-blue-600" />
+              <div className="p-2 bg-primary-100 rounded-lg">
+                <Package className="h-6 w-6 text-primary-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">En Preparación</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.inPreparation}</p>
+                <p className="text-sm font-medium text-primary-600">En Preparación</p>
+                <p className="text-2xl font-bold text-primary-800">{stats.inPreparation}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-green-100 rounded-lg">
-                <CheckCircle className="h-6 w-6 text-green-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Listos</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.ready}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="card">
             <div className="flex items-center">
               <div className="p-2 bg-green-100 rounded-lg">
                 <CheckCircle className="h-6 w-6 text-green-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Entregados</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.delivered}</p>
+                <p className="text-sm font-medium text-primary-600">Listos</p>
+                <p className="text-2xl font-bold text-primary-800">{stats.ready}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="card">
+            <div className="flex items-center">
+              <div className="p-2 bg-green-100 rounded-lg">
+                <CheckCircle className="h-6 w-6 text-green-600" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-primary-600">Entregados</p>
+                <p className="text-2xl font-bold text-primary-800">{stats.delivered}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="card">
             <div className="flex items-center">
               <div className="p-2 bg-red-100 rounded-lg">
                 <XCircle className="h-6 w-6 text-red-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Cancelados</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.cancelled}</p>
+                <p className="text-sm font-medium text-primary-600">Cancelados</p>
+                <p className="text-2xl font-bold text-primary-800">{stats.cancelled}</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Filtros */}
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
+        <div className="card mb-6">
           <div className="flex items-center space-x-4 mb-4">
             <Filter className="h-5 w-5 text-gray-500" />
             <h3 className="text-lg font-semibold text-gray-900">Filtros</h3>

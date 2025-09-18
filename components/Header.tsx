@@ -71,13 +71,13 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200">
+    <header className="bg-white shadow-lg border-b border-primary-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo y título */}
           <div className="flex items-center space-x-6">
             <div className="flex-shrink-0">
-              <h1 className="text-xl font-bold text-gray-900">
+              <h1 className="text-xl font-bold text-primary-700">
                 🍕 Mesero Nana
               </h1>
             </div>
@@ -86,7 +86,7 @@ export default function Header() {
             <nav className="hidden md:flex space-x-4">
               <button
                 onClick={() => window.location.href = '/'}
-                className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-primary-600 hover:text-primary-700 hover:bg-primary-100 rounded-lg transition-colors border border-primary-200"
               >
                 <Home className="h-4 w-4" />
                 <span>Menú</span>
@@ -95,7 +95,7 @@ export default function Header() {
               {(user.role === 'admin' || user.role === 'cocinero') && (
                 <button
                   onClick={() => window.location.href = '/admin'}
-                  className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                  className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-primary-600 hover:text-primary-700 hover:bg-primary-100 rounded-lg transition-colors border border-primary-200"
                 >
                   <BarChart3 className="h-4 w-4" />
                   <span>Dashboard</span>
@@ -107,8 +107,8 @@ export default function Header() {
           {/* Información del usuario */}
           <div className="flex items-center space-x-4">
             {/* Indicador de actividad */}
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            <div className="flex items-center space-x-2 text-sm text-primary-600">
+              <div className="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
               <span>Conectado</span>
             </div>
 
@@ -116,9 +116,9 @@ export default function Header() {
             <div className="relative">
               <button
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="flex items-center space-x-3 p-2 rounded-lg hover:bg-primary-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
-                <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
                   <User className="h-4 w-4 text-white" />
                 </div>
                 <div className="text-left">
